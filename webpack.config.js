@@ -29,28 +29,31 @@ module.exports = {
       },
       {
         test: /\.css$/,
-        use: ['style-loader', 'css-loader']
+        use: ['style-loader', 'css-loader'],
       },
       {
         test: /\.scss$/,
-        use: extractCSS.extract(['css-loader', 'sass-loader'])
+        use: extractCSS.extract(['css-loader', 'sass-loader']),
       },
-    ]
+    ],
   },
   resolve: {
     alias: {
       components: path.resolve(__dirname, 'src/components/'),
       utils: path.resolve(__dirname, 'src/utils/'),
       contracts: path.resolve(__dirname, 'contracts/'),
-    }
+      ethereum: path.resolve(__dirname, 'src/ethereum/'),
+      reducers: path.resolve(__dirname, 'src/reducers/'),
+      actions: path.resolve(__dirname, 'src/actions'),
+    },
   },
   plugins: [
     new HtmlWebpackPlugin({
       template: path.resolve(__dirname, 'public/index.html'),
-      inject: 'body'
+      inject: 'body',
     }),
     extractCSS,
     new webpack.HotModuleReplacementPlugin(),
-    new webpack.NoEmitOnErrorsPlugin()
-  ]
+    new webpack.NoEmitOnErrorsPlugin(),
+  ],
 }

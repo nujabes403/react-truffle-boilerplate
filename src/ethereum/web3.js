@@ -1,6 +1,9 @@
-import Web3 from 'web3';
-//Web3 is constructor function! So capital W right here.
+import Web3 from 'web3'
 
-const web3 = new Web3(window.web3.currentProvider);
-// window is global variable. metamask injected web3 as a global variable.
-export default web3;
+const config = {
+  rpcURL: 'http://localhost:8545',
+  wsURL: 'ws://localhost:8546',
+}
+
+export const web3 = new Web3(new Web3.providers.HttpProvider(config.rpcURL))
+export const web3socket = new Web3(new Web3.providers.WebsocketProvider(config.wsURL))

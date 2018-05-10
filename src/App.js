@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 
-import Popup from 'components/Popup'
 import Layout from './Layout'
+import WalletStatus from './WalletStatus'
 
 import './App.scss'
 
@@ -12,8 +12,8 @@ class App extends Component {
 
   render() {
     return [
-      <Popup key="Popup" />,
-      <Layout key="Layout" />,
+      <WalletStatus key="WalletStatus" />,
+      <Layout key="Layout" />
     ]
   }
 }
