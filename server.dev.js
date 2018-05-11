@@ -25,6 +25,7 @@ if (isDeveloping) {
     },
   })
 
+  app.use('/images', express.static(path.resolve(__dirname, 'images')))
   app.use(middleware)
   app.use(webpackHotMiddleware(compiler))
   app.get('*', function response(req, res) {

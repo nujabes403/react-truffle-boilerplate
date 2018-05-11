@@ -33,7 +33,19 @@ module.exports = {
       },
       {
         test: /\.scss$/,
-        use: extractCSS.extract(['css-loader', 'sass-loader']),
+        use: extractCSS.extract({
+          use: [
+            {
+              loader: 'css-loader',
+            },
+            {
+              loader: 'sass-loader',
+              options: {
+                includePaths: [path.resolve(__dirname, 'src/styles')],
+              },
+            },
+          ],
+        }),
       },
     ],
   },

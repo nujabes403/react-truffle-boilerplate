@@ -4,6 +4,7 @@ import { Router, Route, browserHistory } from 'react-router'
 import { Provider } from 'react-redux'
 import { syncHistoryWithStore } from 'react-router-redux'
 
+import { finishLoading } from 'actions/ui'
 import getWeb3 from 'ethereum/getWeb3'
 import App from './App'
 import registerServiceWorker from './registerServiceWorker'
@@ -14,8 +15,13 @@ import './index.scss'
 const history = syncHistoryWithStore(browserHistory, store)
 
 getWeb3(store)
-  .then(console.log)
-  .catch(() => console.log('please install metamask')) // please intsall metamask
+  .then(() => {
+    store.dispatch(finishLoading())
+  })
+  .catch(() => {
+    console.log('please install metamask')
+    store.dispatch(finishLoading())
+  }) // please intsall metamask
 
 export const renderRoutes = (rootComponent) => (
   <Provider store={store}>

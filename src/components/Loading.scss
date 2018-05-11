@@ -1,0 +1,13 @@
+@import 'mixins';
+
+.Loading {
+  width: 150px;
+  height: 150px;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-image: url(/images/loader.gif);
+  
+  &--wholePage {
+    @include fixed-center;
+  }
+}

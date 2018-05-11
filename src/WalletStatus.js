@@ -5,7 +5,7 @@ type Props = {
   address: string,
 }
 
-const WalletStatus = ({ address }) => {
+const WalletStatus = ({ address }: Props) => {
   return address
     ? <div>injected wallet address: {address}</div>
     : <div>wallet initializing...</div>
@@ -14,7 +14,6 @@ const WalletStatus = ({ address }) => {
 const mapStateToProps = (state) => ({
   address: state.wallet.address,
 })
-
 
 export default connect(
   mapStateToProps,

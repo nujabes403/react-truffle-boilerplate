@@ -16,6 +16,7 @@
   "license": "GPL-3.0",
   "dependencies": {
     "@material-ui/icons": "^1.0.0-beta.43",
+    "classnames": "^2.2.5",
     "drizzle": "^1.1.0",
     "drizzle-react": "^1.1.0",
     "lodash": "^4.17.10",
