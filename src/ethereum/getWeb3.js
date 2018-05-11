@@ -1,26 +1,43 @@
 import Web3 from 'web3'
+import { isEmpty, once } from 'lodash'
 
-import { initializeWallet } from 'actions/wallet'
+import { initWalletFailed, initWalletSuccess } from 'actions/wallet'
 
-const getWeb3 = (store) => new Promise((resolve, reject) => {
-  // Wait for loading completion to avoid race conditions with web3 injection timing.
+const CHECK_WALLET_INTERVAL = 1000 // ms
+
+const checkWeb3Injected = () => new Promise((resolve, reject) => {
+  const { web3 } = window
+  // Check metamask is injected
+  if (typeof web3 !== 'undefined') return resolve(web3)
+  return reject()
+})
+
+const getWeb3 = ({ dispatch }) => new Promise((resolve, reject) => {
+  const resolveOnce = once(resolve)
+  const rejectOnce = once(reject)
+
   window.addEventListener('load', () => {
-    let { web3 } = window
+    checkWeb3Injected()
+      .then(({ currentProvider }) => {
+        const web3 = new Web3(currentProvider)
 
-    // Checking if Web3 has been injected by the browser (Mist/MetaMask)
-    if (typeof web3 !== 'undefined') {
-      // Use Mist/MetaMask's provider.
-      web3 = new Web3(web3.currentProvider)
-
-      console.log('Injected web3 detected.');
-
-      web3.eth.getAccounts((err, accounts) => {
-        resolve(store.dispatch(initializeWallet(accounts[0])))
+        setInterval(() => {
+          console.log('checking account...')
+          web3.eth.getAccounts((err, accounts) => {
+            if (isEmpty(accounts)) {
+              dispatch(initWalletFailed())
+              rejectOnce()
+            } else {
+              const walletAddress = accounts[0]
+              dispatch(initWalletSuccess(walletAddress))
+              resolveOnce()
+            }
+          })
+        }, CHECK_WALLET_INTERVAL)
       })
-    } else {
-      console.log('please inject web3 (with metamask)')
-      reject(new Error('not injected web3'))
-    }
+      .catch(() => {
+        rejectOnce(new Error('Please inject web3'))
+      })
   })
 })
 

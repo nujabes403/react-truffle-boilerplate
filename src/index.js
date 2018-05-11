@@ -15,7 +15,7 @@ const history = syncHistoryWithStore(browserHistory, store)
 
 getWeb3(store)
   .then(console.log)
-  .catch(console.log)
+  .catch(() => console.log('please install metamask')) // please intsall metamask
 
 export const renderRoutes = (rootComponent) => (
   <Provider store={store}>

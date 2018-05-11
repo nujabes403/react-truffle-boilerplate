@@ -13,7 +13,7 @@ class App extends Component {
   render() {
     return [
       <WalletStatus key="WalletStatus" />,
-      <Layout key="Layout" />
+      <Layout key="Layout" />,
     ]
   }
 }
